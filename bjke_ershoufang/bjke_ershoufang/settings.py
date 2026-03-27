@@ -22,8 +22,8 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 ROBOTSTXT_OBEY = False
 
 # Concurrency and throttling settings
-CONCURRENT_REQUESTS = 5 # 并发请求
-CONCURRENT_REQUESTS_PER_DOMAIN = 3 # “并发请求数量/每个域名的并发请求数”
+CONCURRENT_REQUESTS = 1 # 并发请求
+CONCURRENT_REQUESTS_PER_DOMAIN = 1 # “并发请求数量/每个域名的并发请求数”
 DOWNLOAD_DELAY = 1
 
 # Disable cookies (enabled by default)
@@ -40,14 +40,14 @@ DOWNLOAD_DELAY = 1
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+# SPIDER_MIDDLEWARES = {
 #    "bjke_ershoufang.middlewares.BjkeErshoufangSpiderMiddleware": 543,
-#}
+# }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   "bjke_ershoufang.middlewares.BjkeErshoufangDownloaderMiddleware": 543,
+   "bjke_ershoufang.middlewares.BjkeErshoufangDownloaderMiddleware": 0,
 }
 
 # 增加请求超时（给手动验证留足够时间）
@@ -88,3 +88,6 @@ ITEM_PIPELINES = {
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
+REDIRECT_ENABLED = False
+
+RETRY_ENABLED = False

@@ -33,7 +33,7 @@ PRICE_URL_MAP = {
     "p7": "800-1000w",
     "p8": "1000w以上"
 }
-MAX_PAGE = 20
+MAX_PAGE = 2
 
 
 class ErshoufangSpider(scrapy.Spider):
@@ -60,20 +60,43 @@ class ErshoufangSpider(scrapy.Spider):
             "sec-ch-ua-mobile": "?0",
             "sec-ch-ua-platform": "\"Windows\""
         }
+        with open('cookie.txt','r',encoding='utf-8') as f:
+            cookie_str = f.read()
+            print(cookie_str)
+        self.cookies = self.parse_cookie(cookie_str=cookie_str)
+        print(self.cookies)
         self.cookies = {
-            "hip": "KDHKoUCPAgo9effLiloYszXWFvObhl9BtQKYenadPAS5-fAbsf6QTdgLANfExN5aFUSMiW9D02Cm6OPTG3iMlagaMl7v0HkckqyaYeMpuhA26KIn6ENyKLSNNLlYxqx1P89Fg6VKUblo6TT_bBiNCfBCGejQvnUdFZ-_Iq43ATshpIVLgmMf5g4HiQD682rL0oNo67RdwQHYCqUgydj2UwAkKN4Ad85XSH0A58EbN6cj0VAQJe3nS4TKYZFlb-CJFrtJMGOR5Ja54UgZ74xbH3Nbhs6Gtg%3D%3D",
-            "select_city": "110000",
             "lianjia_uuid": "87202424-9799-4e89-a309-c6699ee66653",
-            "Hm_lvt_b160d5571570fd63c347b9d4ab5ca610": "1773979408,1773997023",
-            "HMACCOUNT": "00959BC5EB881F83",
-            "sensorsdata2015jssdkcross": "%7B%22distinct_id%22%3A%2219d0a765fd07ad-0aab5e6582a9348-26061c51-1327104-19d0a765fd11bc0%22%2C%22%24device_id%22%3A%2219d0a765fd07ad-0aab5e6582a9348-26061c51-1327104-19d0a765fd11bc0%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24latest_referrer_host%22%3A%22%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%7D%7D",
-            "lianjia_token": "2.001342c2bc4949dd1902efeb8d4fc6b0f4",
-            "lianjia_token_secure": "2.001342c2bc4949dd1902efeb8d4fc6b0f4",
             "crosSdkDT2019DeviceId": "-e8vmjx-8lw8p3-ltwi1cuerolysyk-5gh389lip",
-            "lianjia_ssid": "ca9c0deb-e7f4-4435-bd86-cb0eb35e5c6f",
-            "Hm_lpvt_b160d5571570fd63c347b9d4ab5ca610": "1774048629",
-            "srcid": "eyJ0Ijoie1wiZGF0YVwiOlwiYWIwMzY4MDlkYjIzNGY1YTQ3NTBkZDM2YmE2YWFmYTI4YWVjYWY1OGQyMDc0Yjk0Yzg5NTQxMmZhOThjOGFjOGE4OTNmZWYyN2E5NTU3OTA5NmU3NGEzNTE3MTgwMDNmYjEyYzZiYjRjOGQ2NjllZGE0NTNmMTQ2OTY2NmRjM2UyYmU2OTFkYWE4NjhiYTJiZjFjM2UyMWViNDQyY2IxMGJmMWFlNjVhOGM3ZmY2MDFkOWNhZWIzYWZiODVhMmM1YThkN2M1OTE0NjlkM2Y0YzkwYTY2ZDVlNTI5OWRlY2QwNjRjZWNkY2EyYjFlZTgzMDdlOTI5YzI4MWFkNjE5YlwiLFwia2V5X2lkXCI6XCIxXCIsXCJzaWduXCI6XCJjNmJhZTUyNFwifSIsInIiOiJodHRwczovL2JqLmtlLmNvbS9lcnNob3VmYW5nL2NoYW95YW5ncXU1LyIsIm9zIjoid2ViIiwidiI6IjAuMSJ9"
+            "lfrc_": "4dedac2e-687b-4d99-a2ba-23dd4f180657",
+            "Hm_lvt_b160d5571570fd63c347b9d4ab5ca610": "1773979408,1773997023,1774419934",
+            "HMACCOUNT": "00959BC5EB881F83",
+            "select_city": "110000",
+            "login_ucid": "2000000529560137",
+            "security_ticket": "V0yAEZwe8Ytf6iw3iuSheHlvp9UZ4bngTxr28NcXZ+FTcQiOfR5JmcGAOMQ3f55B3hDUuNrswCYFKw1BwYT2S5laE9S5vS512xmdHw0L0sjhbiylV//5WLTx8kaPFzV8J+gSlByoghSSwCR0diwfXz7dgbbdpnsAgjzRl5YclKg=",
+            "lianjia_token": "2.001362d7d04969c87502cffee1b0e3c838",
+            "lianjia_token_secure": "2.001362d7d04969c87502cffee1b0e3c838",
+            "sensorsdata2015jssdkcross": "%7B%22distinct_id%22%3A%2219d0a765fd07ad-0aab5e6582a9348-26061c51-1327104-19d0a765fd11bc0%22%2C%22%24device_id%22%3A%2219d0a765fd07ad-0aab5e6582a9348-26061c51-1327104-19d0a765fd11bc0%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24latest_referrer_host%22%3A%22%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%7D%7D",
+            "lianjia_ssid": "d95fa248-6fa9-43a5-ad90-6bb69bd314a0",
+            "Hm_lpvt_b160d5571570fd63c347b9d4ab5ca610": "1774638792",
+            "srcid": "eyJ0Ijoie1wiZGF0YVwiOlwiYWIwMzY4MDlkYjIzNGY1YTQ3NTBkZDM2YmE2YWFmYTJlYjA5YTRmODc1ZTY5ZGFiMGI2YWQ3NjI0ZTk4NGRhNTY4YWRkYmY2NDlhNWIzMmExOWI1N2RlMDVmNDBiMTljMjhmMjA2MDEzMjJmNjI5MTg0MWQ1ODBiZGNhODI3MjUwYjYwMDk0YmY3YmRiNWE2M2U2MjcyYjgyOWM1M2JkYzQ5ZDBhNjViNWZlYzcyZGUwMDliNjBmNWZjODgyNDczN2U4MTRiZGI5OWRhNjUyYmFiYWI1YjE1OGFlODgwOTFhMTFkNWZkNWI5YmFlZTk2MWMzMTE5ZjcxNjBhOTFmMjliYWEzNzA1ZmM2MTVkY2Y2ZTQ2YTlmYTk2YmE1M2IxOTM2MGUwOTNjN2NmYzA3OTY3ZGM3OWQyYjczMGI3ZjFcIixcImtleV9pZFwiOlwiMVwiLFwic2lnblwiOlwiOGI5OWQ0YWJcIn0iLCJyIjoiaHR0cHM6Ly9iai5rZS5jb20vZXJzaG91ZmFuZy9kb25nY2hlbmdxdTMvIiwib3MiOiJ3ZWIiLCJ2IjoiMC4xIn0="
         }        # 后期需要从登录接口获取（实现账号批量登录）
+
+    @staticmethod
+    def parse_cookie(cookie_str):
+        cookie_dict = {}
+        cookie_items = [item.strip() for item in cookie_str.split(';') if item.strip()]
+        for item in cookie_items:
+            key, value = item.split('=', 1)
+            cookie_dict[key.strip()] = value.strip()
+        return cookie_dict
+
+    # 👇 新增：把字典格式的Cookie 保存到 txt 文件（持久化核心）
+    @staticmethod
+    def save_cookie(cookie_str):
+        # 覆盖写入文件（永远保存最新的Cookie）
+        with open('cookie.txt', 'w', encoding='utf-8') as f:
+            f.write(cookie_str)
 
 
     def start_requests(self):
@@ -93,7 +116,17 @@ class ErshoufangSpider(scrapy.Spider):
     def parse(self, response):
         """层级1：行政区解析，判断是否需要切分户型"""
 
+
+
         soup = BeautifulSoup(response.text, 'lxml')
+        # ========== 加容错：找不到元素直接跳过，不报错 ==========
+        total_tag = soup.find(class_='total fl')
+        if not total_tag:
+            # 说明是验证码页面/异常页面，重新请求
+            self.logger.error("页面异常，重新请求...")
+            yield response.request.replace(dont_filter=True)
+            return
+
         total = soup.find(class_='total fl').text.strip().split(' ')[1]  # a找到套数
         district = response.meta["district"]
         print('层级1',total,district,response.meta["level"])
@@ -177,13 +210,13 @@ class ErshoufangSpider(scrapy.Spider):
 
             url = f"{base_pagination_url}{page_}/"
             print('翻页url为',url)
-            # yield scrapy.Request(
-            #     url=url,
-            #     cookies=self.cookies,
-            #     headers=self.headers,
-            #     callback=self.parse_list_data,
-            #     meta={"district": district, "room": room, "price": price, "page": page_}
-            # )
+            yield scrapy.Request(
+                url=url,
+                cookies=self.cookies,
+                headers=self.headers,
+                callback=self.parse_list_data,
+                meta={"district": district, "room": room, "price": price, "page": page_}
+            )
 
     def parse_list_data(self, response):
         """列表页数据解析：你在这里补全房源数据提取逻辑"""
@@ -224,13 +257,16 @@ class ErshoufangSpider(scrapy.Spider):
         district = response.meta.get('district', 'unknown')
         room = response.meta.get('room', 'all')
         price = response.meta.get('price', 'all')
+        if price is None:
+            price = 'all'
         page = response.meta.get('page', '1')
         filename = f'ershoufang_data/{district}_{room}_{price}.csv'
 
         # 3. 追加写入数据（避免覆盖,因为要翻页）
         with open(filename, 'a', encoding='utf-8',newline='') as f:
             writer = csv.DictWriter(f, fieldnames=['house_name', 'location_href', 'location_name', 'price','page'])
-            writer.writeheader()
+            if not os.path.exists(filename):
+                writer.writeheader()
             for item in result:
                 item['page'] = page
                 writer.writerow(item)

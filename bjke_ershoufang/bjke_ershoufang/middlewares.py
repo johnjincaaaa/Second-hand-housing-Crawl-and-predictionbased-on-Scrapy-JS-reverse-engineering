@@ -5,6 +5,8 @@
 
 from scrapy import signals
 from DrissionPage import ChromiumPage
+import time
+import asyncio
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
@@ -59,7 +61,7 @@ class BjkeErshoufangDownloaderMiddleware:
     # passed objects.
     def __init__(self):
         self.page = ChromiumPage()
-
+        self.verified = False  # 验证状态锁
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -72,38 +74,47 @@ class BjkeErshoufangDownloaderMiddleware:
 
         return None
 
-    def process_response(self, request, response, spider):
-        # 👇 你最关心的逻辑：遇到 302 跳验证码
-        if response.status in (302, 301, 307):
-            loc = response.headers.get('Location', b'').decode()
-            if 'captcha' in loc or 'verify' in loc or 'passport' in loc:
-                spider.logger.info(f"🚨 触发验证码：{loc}")
+    async def process_response(self, request, response, spider):
+        # 捕获302验证码
+        if response.status == 302:
+            location = response.headers.get('Location', b'').decode()
+            if 'hip.ke.com' in location or 'captcha' in location:
+                print(f"🚨 触发验证码，自动处理：{location}")
 
-                # 👇 用 DP 打开原链接，过验证码
+                # --------------- 核心：异步阻塞，真正卡住Scrapy ---------------
                 self.page.get(request.url)
+                cookies = spider.cookies
+                for c in cookies.items():
+                    coo = {'name': c[0], 'value': c[1], "domain": ".ke.com"}
+                    self.page.set.cookies(coo)
+                self.page.refresh()
+                print("⌛ 【已完全阻塞】请在浏览器完成验证码！")
 
-                # 👇 等待你手动/自动过验证码
-                self.page.wait(1.5)
-                while '验证码' in self.page.title or 'verify' in self.page.url:
-                    self.page.wait(1)
+                # 异步死循环 + 强制等待（这才是Scrapy能用的阻塞！）
+                while True:
+                    current_url = self.page.url
+                    # 验证成功：跳回bj.ke.com
+                    if "bj.ke.com" in current_url and "hip.ke.com" not in current_url:
+                        break
+                    # 异步等待1秒（真正阻塞异步事件循环）
+                    await asyncio.sleep(1)
+                    print(f"当前URL：{current_url} → 等待验证...")
 
-                # 👇 过了验证码 → 拿到最新 cookie
-                cookies = self.page.cookies()
+                # 验证通过，保存Cookie
+                new_cookies = ';'.join([i.get('name')+'='+i.get('value') for i in self.page.cookies()])
+                spider.save_cookie(new_cookies)
+                print("✅ 验证通过！恢复爬取！")
 
-                # 👇 把新 cookie 塞进原来的请求
-                request.cookies = cookies
-
-                # 👇 重新请求！
+                # 重新请求
                 return request.replace(
-                    url=request.url,
-                    cookies=cookies,
+                    cookies=spider.parse_cookie(new_cookies),
                     dont_filter=True
                 )
 
         return response
 
 
-    def process_exception(self, request, exception, spider):
+    async def process_exception(self, request, exception, spider):
         # Called when a download handler or a process_request()
         # (from other downloader middleware) raises an exception.
 
